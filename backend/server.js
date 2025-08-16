@@ -1,69 +1,58 @@
-const express = require('express');
-const cors = require('cors');
+const express = require('express'); 
+const cors = require('cors'); 
+const swaggerJsdoc = require('swagger-jsdoc'); 
+const swaggerUi = require('swagger-ui-express'); 
 
-const app = express();
-const PORT = 5000;
+  
+const authRoutes = require('./routes/auth'); 
+const userRoutes = require('./routes/users'); 
+const dataRoutes = require('./routes/dataAnalysis'); 
+const alertsRoutes = require('./routes/alerts'); 
+const checklistsRoutes = require('./routes/checklists'); 
 
-// Enable CORS for all requests to allow the frontend to connect
-app.use(cors());
+  
+const app = express(); 
+app.use(cors()); 
+app.use(express.json()); 
 
-// Use express.json() to parse incoming JSON payloads
-app.use(express.json());
+  
+const PORT = process.env.PORT || 3000; 
 
-// === Mock Data to Simulate a Database ===
-// This data matches the structure of the API contract for read-only access.
-const dashboardData = {
-    privacy_score: 75,
-    last_analysis_date: new Date().toISOString(),
-    active_alerts_count: 3,
-    pending_checklist_items_count: 7
-};
+  
+const swaggerDefinition = { 
+  openapi: '3.0.0', 
+  info: { 
+    title: 'BridgeAura API', 
+    version: '1.0.0', 
+    description: 'Backend API for BridgeAura assignment' 
+  }, 
+  servers: [{ url: 'http://localhost:' + PORT }] 
+}; 
 
-const alertsData = {
-    alerts: [
-        { id: 'alert_1', title: 'Location Access Enabled', severity: 'high' },
-        { id: 'alert_2', title: 'Old Password Found', severity: 'medium' },
-        { id: 'alert_3', title: 'Unused App Permissions', severity: 'low' },
-    ],
-    pagination: { total_items: 3 }
-};
+  
+const options = { 
+  swaggerDefinition, 
+  apis: ['./routes/*.js'] 
+}; 
 
-const checklistsData = {
-    checklists: [
-        { id: 'chk_1', title: 'Secure Your Email Account' },
-        { id: 'chk_2', title: 'Clean Up Social Media' },
-        { id: 'chk_3', title: 'Improve Password Hygiene' },
-    ]
-};
+  
+const swaggerSpec = swaggerJsdoc(options); 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec)); 
 
-// === API Endpoints ===
+  
+app.use('/api/auth', authRoutes); 
+app.use('/api/users', userRoutes); 
+app.use('/api/data-analysis', dataRoutes); 
+app.use('/api/alerts', alertsRoutes); 
+app.use('/api/checklists', checklistsRoutes); 
 
-// GET endpoint for dashboard summary data
-app.get('/api/dashboard/summary', (req, res) => {
-    console.log('GET /api/dashboard/summary requested');
-    // Simulate a slight delay to mimic network latency
-    setTimeout(() => {
-        res.json(dashboardData);
-    }, 500);
-});
+  
+app.use((req, res) => { 
+  res.status(404).json({ error: 'Not Found' }); 
+}); 
 
-// GET endpoint for alerts data
-app.get('/api/alerts', (req, res) => {
-    console.log('GET /api/alerts requested');
-    setTimeout(() => {
-        res.json(alertsData);
-    }, 500);
-});
-
-// GET endpoint for checklists data
-app.get('/api/checklists', (req, res) => {
-    console.log('GET /api/checklists requested');
-    setTimeout(() => {
-        res.json(checklistsData);
-    }, 500);
-});
-
-// Start the server
-app.listen(PORT, () => {
-    console.log(`Node.js backend server running on http://localhost:${PORT}`);
+  
+app.listen(PORT, () => { 
+  console.log(`Server listening on port ${PORT}`); 
+  console.log(`Swagger UI available at http://localhost:${PORT}/api-docs`); 
 });
