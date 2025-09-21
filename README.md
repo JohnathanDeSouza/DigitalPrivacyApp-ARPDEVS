@@ -20,46 +20,25 @@ To empower users to take control of their digital privacy by providing them with
 - [Shreeyash Pednekar] (https://github.com/shreeyash1234)
 
 ## 🛠 Tech Stack
-This project is a full-stack application built with the MERN stack principles, using Node.js and Express for the backend and React for the frontend.
+Frontend: React, Tailwind CSS, Heroicons
+Backend: Node.js, Express.js, JWT, bcrypt
+API Documentation: Swagger
+Testing: Jest, Supertest
 
-Frontend
-React: A JavaScript library for building dynamic user interfaces with a component-based architecture.
-Tailwind CSS: A utility-first CSS framework used for all styling to create a modern and responsive design.
-Heroicons: A high-quality library of SVG icons used throughout the application for a polished user experience.
-JavaScript (ES6+): The core programming language for the frontend logic and interactivity.
-
-Backend
-Node.js: A JavaScript runtime environment that allows for running JavaScript on the server.
-Express.js: A minimal and flexible Node.js web application framework used to build the REST API.
-JSON Web Tokens (JWT): Used for creating secure access tokens to handle user authentication and session management.
-bcrypt: A library for hashing user passwords to ensure they are stored securely.
-Swagger: Used for generating interactive API documentation, making the backend endpoints easy to understand and test.
-
-Testing
-Jest: A delightful JavaScript testing framework with a focus on simplicity, used for running unit and integration tests.
-Supertest: A library for testing Node.js HTTP servers, used to make requests to the API endpoints and assert their responses.
-
-How to Run Locally
-To get a local copy up and running, follow these simple steps.
+## Getting Started
+To get a local copy up and running, follow these steps.
 Prerequisites
-Node.js and npm installed on your machine.
-npm install npm@latest -g
-
-Installation & Setup
-Clone the repo
+Node.js and npm
+Installation and Launch
+Clone the repository
 git clone [https://github.com/JohnathanDeSouza/DigitalPrivacyApp-ARPDEVS.git](https://github.com/JohnathanDeSouza/DigitalPrivacyApp-ARPDEVS.git)
-Install Backend Dependencies
-cd backend
-npm install
-Install Frontend Dependencies
-cd ../frontend
-npm install
-
-Run the Backend Server (in one terminal)
-cd backend
-npm start
-The backend will be running on http://localhost:3000.
-Run the Frontend Application (in a separate terminal)
-cd frontend
-npm start
-The application will open in your browser at http://localhost:3001
+cd DigitalPrivacyApp-ARPDEVS
+Install dependencies for both projects
+npm install --prefix backend
+npm install --prefix frontend
+Run both servers concurrently (in separate terminals)
+Terminal 1 (Backend):
+npm start --prefix backend
+Terminal 2 (Frontend):
+npm start --prefix frontend
+The backend will run on http://localhost:3000 and the frontend on http://localhost:300
